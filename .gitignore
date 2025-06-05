@@ -1,5 +1,36 @@
+# Large directories (NEVER commit these)
+models/
+models/**/*
+MeetingRecordings/
+MeetingOutputs/
+Working/
+Work/
+llama.cpp/
+llama_cpp_bin/
+
+# Model files (NEVER commit these)
+*.gguf
+*.bin
+*.pth
+*.onnx
+*.pt
+*.h5
+*.hdf5
+*.pkl
+*.joblib
+*.safetensors
+*.tiktoken
+*.model
+*.vocab
+tokenizer.json
+*.quantized
+
 # macOS system files
 .DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
 
 # Python
 __pycache__/
@@ -24,23 +55,45 @@ wheels/
 .installed.cfg
 *.egg
 
-# Project specific
-MeetingOutputs/
-MeetingRecordings/
-Working/
-Work/
-models/
-llama.cpp/
-llama_cpp_bin/
-
-# Debug files
+# Debug and temporary files
 debug_*.txt
 *_old*.py
 *_old*.sh
 *_old*.docx
+*.log
+*.tmp
+*.temp
+.~*
+~$*
+
+# Audio files
+*.wav
+*.mp3
+*.m4a
+*.aac
+*.ogg
+
+# Document files (except templates)
+*.docx
+*.pdf
+!template.docx
+!Templates/*.docx
 
 # Environment
 .env
 .venv
 venv/
-ENV/ 
+ENV/
+.env.*
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Backup files
+*.bak
+*.backup
+*# 
