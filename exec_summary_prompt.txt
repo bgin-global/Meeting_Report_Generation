@@ -1,0 +1,384 @@
+You are a meeting summarizer.
+
+The following is a long executive summary compiled from several sessions.
+Please condense it into a single coherent executive summary under 250 words.
+Use clear, neutral language suitable for inclusion in a professional meeting report.
+
+--- BEGIN TEXT ---
+
+Part 1
+- The session, conducted under the Chatham House rule, focused on the transition to post-quantum cryptography (PQC) and cryptographic agility.
+- The purpose of the session was to discuss potential new work items.
+- The session started with a presentation on the problem statement, followed by a video recording presenting potential transition protocols.
+
+Part 2
+- The impact of quantum computers on current asymmetric cryptographic algorithms is unclear.
+- Most concerns are centered around data signature schemes in asymmetric cryptography.
+- A transition from weaker cryptographic algorithms to safer ones took place around 2005, and a similar transition to Post-Quantum Cryptography (PQC) is expected to take more time.
+- It is crucial to design a protocol or mechanism to ease future transitions and address compatibility issues.
+
+Part 3
+- The meeting discussed the integration of post-quantum cryptography (PQC) standards into legacy systems and their performance impact.
+- A phase transition strategy with dual deployment and various types of testing is required.
+- Collaboration on new post-cantem cryptography standards and guides is necessary.
+- NIST is working on PQC standards and has a transition plan, but it focuses only on the cryptographic algorithm itself.
+- A specific transition plan for blockchain and its applications needs to be created.
+
+Part 4
+- NIST has completed a multi-year, public competition to select Post-Quantum Cryptography (PQC) candidates.
+- The competition evaluated public encryption, data signature schemes, and key exchange mechanisms.
+- NIST has selected five data signature schemes under the PQC criteria.
+- NIST published a PQC transition document in January outlining a broader strategy for managing the transition to PQC.
+
+Part 5
+* NIST has published a transition document detailing the adoption of new Post-Quantum Cryptography (PQC) algorithms.
+* The document includes a timeline for the deprecation and removal of legacy algorithms, including ECDSA and RSA.
+
+Part 7
+- The discussion focused on the impact of different types of breaks in the signature scheme and hash function on Bitcoin.
+- There are potential risks such as unclaimed coin payments, double spending, and complete failure of the blockchain.
+- ECD (Elliptic Curve Digital Signature Algorithm) is also susceptible to selective forgery of data signatures and integrity issues, which can lead to unclaimed coins and unpaid claims.
+
+Part 8
+* It was discussed that an attacker could potentially send a fake alert to the Bitcoin layer one blockchain protocols, which could impact the multi-party competition wallet or zero-node proof credential authentication protocol associated with the Bitcoin blockchain.
+* The underlying cryptography algorithms are critical to the security of these protocols, and if they are broken, it could lead to attacks.
+* The concept of cryptographic agility was introduced as a solution to this problem. Cryptographic agility is the ability to switch between multiple cryptographic primitives in protocol design.
+
+Part 9
+- Cryptographic agility is a significant topic in the design of cryptographic algorithms, including blockchain protocols.
+- The goal of cryptographic agility is to enable rapid adoption of new cryptographic primitives and algorithms without causing disruptive changes to the system's infrastructure.
+- One of the schemes to transition layer 1 blockchain to more secure algorithms is to propose a protocol that wraps the old blockchain data signature algorithm with a more secure signature scheme.
+
+Part 10
+- The speaker presented a follow-up research conducted by a UK-based research group on a long-term time stamping scheme using blockchain technology.
+- The research group was unable to attend the session but sent a 20-minute video explaining their proposal.
+- The speaker introduced the concept of a time stamping service, which can prove the existence of digital data at a certain time.
+
+Part 11
+- The creation of digital data, such as slides, can be time-stamped using a timestamping service to provide a binding between the data and a point in time.
+- Traditional timestamping services use a Timestamping Authority (TSA) to generate a cryptographic binding between the data and the time using methods like digital signatures, hash functions, or message authentication codes.
+- The security of traditional timestamping services depends on the trustworthiness of TSAs and the underlying cryptographic algorithms.
+- A potential issue arises when a TSA is broken or compromised, allowing for the generation of forged tokens.
+
+Part 12
+- The trustworthiness of timestamp tokens has been compromised due to their invalidity.
+- A potential solution to this issue is the implementation of a blockchain-based timestamping service.
+- Blockchain is a decentralized, tamper-resistant, and publicly verifiable distributed ledger of transactions.
+- Each block in a blockchain contains a hash value of the previous block, making it tamper-resistant.
+- The use of a blockchain-based timestamping service can provide advantages such as data traceability and improved security compared to traditional timestamping services.
+
+Part 13
+- The concept of inserting a hash value of a data item into a blockchain transaction was discussed.
+- This approach aims to eliminate trust requirements on authorities and decentralize the timestamping service.
+- The security of this system relies on both client-side and blockchain-side algorithms, such as hash functions or signature schemes.
+- A significant concern raised was the potential vulnerability of the underlying cryptographic algorithms due to operational life cycles or advancements in computational power, such as quantum computers.
+
+Part 14
+- The discussion focused on the need for long-term timestamping schemes in blockchain technology.
+- Current blockchain timestamping schemes do not address long-term security requirements, as their timestamp tokens could lose validity in the halfway due to the lifetime of underlying cryptographic algorithms.
+- The research problem is to achieve a long-term timestamping scheme on a blockchain.
+- The core technique developed in this work is called cryptographic algorithm renew, which involves renewing the current algorithm with a stronger one when it is threatened but still secure.
+
+Part 15
+* A collision attack was found for SHA-1 in 2017, indicating the need to transition from SHA-1 to SHA-2 within the next 12 years.
+* RSA and ECC based signature schemes are vulnerable to quantum attacks and should be replaced with post-quantum signatures like Falcon, Sphinx+, and Fast.
+* There are challenges in achieving this target, including the lack of a formal security model and definition for blockchain-based long-term timestamping, the use of cryptographic algorithms both inside and outside the blockchain system, and the limited protection offered by simply replacing old algorithms with new ones.
+
+Part 16
+- The discussion revolved around the challenges of connecting previous timestamps with new ones in the context of a long-term timestamping scheme.
+- A blockchain-based long-term timestamping scheme was proposed, complete with a formal definition, security model, and three different construction solutions.
+- The proposed scheme was formally proven to satisfy long-term security and was implemented, showing promising efficiency results.
+
+Part 17
+* A user runs the timestamp renew algorithm with a stronger algorithm C\_i, data item, and blockchain as input, which outputs a renewed timestamp token.
+* A verifier checks the validity of a timestamp token by running the timestamp verification algorithm, which takes the data item, a group of timestamp tokens, the blockchain, verification time, and verification data as input, and outputs a bit representing validity.
+* Verification data, provided by reliable sources, indicates the validity state information of timestamp algorithms, including when each algorithm is secure, broken, or weak but still secure.
+* The renewal of each algorithm should occur when it is weak but still secure.
+* The threat model and security model for blockchain-based long-term timestamping are defined.
+
+Part 18
+* The primary security property of interest is long-term integrity.
+* Three types of attacks are captured in the threat model: tempering attack, backdating attack, and forging attack.
+* A long-term blockchain scheme is developed to securely renew hash functions and signature schemes used at the blockchain side.
+
+Part 19
+- A hash transition procedure and a signature transition procedure were discussed to ensure the security of the blockchain.
+- The hash transition procedure involves dividing the blockchain into groups and using a stronger hash function to hash each group, storing the hash result in a future block. This ensures the integrity of the blocks even if the old hash function is no longer secure.
+- The signature transition procedure allows users to transfer their assets from a key pair generated by an old signature scheme to a key pair generated by a stronger signature scheme.
+- These procedures ensure that all signatures or hash values on the blockchain side can be securely renewed.
+
+Part 20
+- The discussion revolved around a combined long-term blockchain scheme and a blockchain-based timestamping scheme.
+- The proposed procedure involves submitting data to a blockchain-based timestamping service, which then stores the resulting hash value in the blockchain transaction.
+- Concerns were raised about the potential vulnerability of the crypto algorithms used at both the blockchain and client sides, and the lack of renewal operations for hash functions on the client side.
+- A solution was proposed, involving three different approaches to address the identified issues.
+
+Part 21
+- Three approaches to achieving long-term security on the client side were discussed:
+  1. Removing the client-side hash function and directly uploading data items on blockchain transactions.
+  2. Hashing the data item before submitting to the blockchain and replacing it with a stronger hash function when needed.
+  3. An approach similar to the second one, with details not provided in the transcript.
+
+Part 22
+- The meeting discussed a comparison of three solutions for client-side hash function renewal in the context of blockchain timestamping services.
+- The first solution has the drawback of exposing data items on the blockchain, while the second and third solutions maintain data privacy and avoid size limitations.
+- The second and third solutions differ in how users maintain them.
+
+Part 23
+- A solution has been implemented to timestamp a music file using the OpenTimestamp, a blockchain-based timestamping service.
+- The hash digest of the file, along with other files, was uploaded to a Bitcoin transaction, creating a timestamp proof.
+- This proof serves as evidence that the file existed on April 5th, 2021.
+- In the event of a theoretical attack on the SHA-256 hash function, a stronger hash function can be used to recalculate the hash of the MP3 file and re-upload it to Bitcoin, preserving the timestamp proof.
+
+Part 24
+- The purpose of the session is to explore potential work items for the Post-Quantum Cryptography (PQC) transition or crypto agility in blockchain technology.
+- The proposed work items include defining technology requirements towards post-quantum blockchain technology, evaluating existing solutions, and identifying gaps.
+
+Part 25
+- The meeting discussed the concept of a post-quantum secure blockchain and its application.
+- The importance of defining the requirements for protocol security implementation was highlighted.
+- The possibility of creating a post-quantum blockchain standard was considered.
+- The transition to post-quantum security and the need for standards in transition mechanisms were emphasized.
+
+Part 26
+- The discussion focused on facilitating the security of blockchain technology post-quantum computing, specifically in relation to the PQC (Post-Quantum Cryptography) transition.
+- The scope of the discussion was clarified to primarily concern digital signatures, although encryption schemes for secrecy in layer two or other parts were also considered.
+
+Part 27
+- The topic of retrospective attacks, such as decryptor attacks, was raised as a concern for ensuring secrecy.
+- There is a need to clarify the scope of the project, specifically regarding the handling of secrecy.
+- The challenge of updating every client key was discussed, with concerns about the feasibility of this assumption.
+
+Part 28
+* The discussion revolved around the potential incentive for users to update their keys in the context of post-quantum security in Bitcoin.
+* The analogy of sunken treasure from old ships was used to illustrate the idea of quantum computer treasure hunters searching for lost Bitcoin.
+
+Part 29
+- Theoretically, updating the key could lead to a re-ignition of the Bitcoin supply.
+- There are several technical issues to consider, such as preventing double spending for new and old keys, supporting both old and new keys, and deciding how long to support the old keys.
+- There are also concerns about how to treat assets that never update for a significant period of time.
+
+Part 30
+* The discussion revolved around updating the hash or server-side of the blockchain, which was considered relatively easier compared to client-side updates.
+* Client-side updates were seen as operationally challenging.
+* The possibility of stopping support for some client adventures in the future was raised.
+
+Part 31
+- The need to migrate to post-quantum signatures is acknowledged.
+- The primary challenge lies in determining the timeline and architecture for migration.
+- The decision should be guided by governance issues and the applicability of various schemes.
+- Some signature schemes are not yet standardized but are being worked on in ITF.
+
+Part 32
+- The discussion revolved around a signature scheme that allows multiple signatures in one data.
+- The proposed use of this scheme is to prevent double spending by always checking if a person's signature matches a specific set of keys.
+- There are uncertainties about the implementation during the transition period, where different stakeholders may handle the situation differently.
+- It was agreed that a rule needs to be established for the transition if it is deemed necessary.
+
+Part 33
+The discussion revolved around the potential impact of quantum computing on cryptocurrencies, with a specific focus on the risk of quantum computers breaking the cryptographic security of crypto transactions. The consensus was that while the technology is not currently advanced enough to pose an immediate threat, it is a future concern that should be monitored.
+
+Part 34
+- The discussion revolved around the potential impact of quantum computing on cryptocurrencies and the feasibility of post-quantum blockchain technology.
+- The concept of making Bitcoin or layer one inherently resistant to quantum computing was raised.
+- The question of whether it's premature to discuss post-quantum blockchain technology, given the current stage of quantum computing, was posed.
+
+Part 35
+- The discussion revolved around the impact of quantum computing on cryptography.
+- There is a disagreement on the timeline of quantum computing development, with estimates ranging from 3 to 20 years.
+- The potential impact of quantum computing on data security, particularly sensitive data that needs to be stored for long periods, was highlighted.
+
+Part 36
+- The discussion revolved around the handling of sensitive data and the potential need for extra care when dealing with certain types of information.
+- The concept of Post-Quantum Cryptography (PQC) migration was introduced as a possible solution for protecting data in the future.
+- The process of migrating cryptographic algorithms was discussed, with examples such as the migration from SHA-1 to SHA-2 taking over 20 years.
+- There is uncertainty about the availability of PQC for attacking after 20 years, but it is believed that it will not be a concern.
+
+Part 37
+- The discussion revolved around the transition speed of encryption methods, with a focus on historical examples such as RSA, DSA, and ECDSA.
+- A key concern raised was the impact of patents on the adoption of new encryption methods.
+
+Part 38
+- There is a possibility to migrate to a new algorithm, but it might be risky from a business standpoint.
+- The decision to migrate depends on the incentive, and if there isn't a strong enough reason, people may choose to postpone the migration.
+- There's an assumption that centralized systems, such as Ethereum layer two protocols, would consider the long-term implications of quantum computing.
+
+Part 39
+- The topic of quantum computing and its potential impact on blockchain systems, such as Bitcoin, is discussed.
+- It is noted that the blockchain community should be discussing this issue.
+- The importance of estimating the migration time to a quantum-resistant system is highlighted.
+- The competitive nature of blockchain platforms is considered in the context of quantum computing.
+
+Part 40
+- There is a consensus on the need for an update to the current system, specifically for Bitcoin.
+- The update is expected to take longer due to the slower-moving nature of Bitcoin.
+- There is no immediate urgency or market competition for this update.
+- The market will naturally select the most efficient blockchain, as seen with the competition between Ethereum and Solana.
+- For Bitcoin, the situation is more critical, similar to a "code red."
+
+Part 41
+- The meeting discussed the possibility of establishing standards and certifications for post-quantum blockchain technology.
+- The idea of publishing technology requirements and best practices for post-quantum blockchain technology was proposed.
+- It was suggested that this could provide a competitive edge for blockchain platforms that comply with these standards.
+
+Part 42
+- The importance of managing keys securely was discussed.
+- The concept of managing keys as custody was suggested as a best practice.
+- The difference between safety and security was raised as a point of discussion.
+- The resource intensity of managing keys privately versus through a custody service was compared.
+
+Part 43
+- There is a concern about the potential impact of Post-Quantum Cryptography (PQC) migration on Bitcoin and the need for a smooth transition to post-quantum resistant keys.
+- The primary challenge lies in the uncertainty regarding the arrival of quantum computers that could compromise the current cryptographic systems.
+- A potential market-driven solution for assisting with the transition to PQC was suggested, involving a company that helps users migrate their keys for a fee.
+- The fear is that the transition to post-quantum resistant Bitcoin could lead to market chaos, forks, and confusion over value and usability.
+
+Part 44
+- The value of cryptocurrencies like Bitcoin is discussed, emphasizing the importance of factors such as decentralization, cryptography, and data signature schemes.
+- Concerns are raised about the verification and security of these fundamental elements, particularly the role of centralized bodies such as NIST.
+
+Part 45
+- The US government, US treasury, and US FRB are considering buying Bitcoin as a reserve.
+- There are concerns about the post-quantum security of Bitcoin if quantum computers become capable of breaking it.
+- The market would react swiftly to any double-spend problem before any official organization, such as NIST, could address it.
+
+Part 46
+- There is a perceived "noise bubble" in the Bitcoin market, with much speculation about its future value.
+- Theoretical reports suggesting that a decentralized engine like Bitcoin could become valueless in 20-30 years due to advancements in quantum technology have not yet impacted the market.
+- This is partly attributed to an "artificial" ignorance, as the National Institute of Standards and Technology (NIST) has not yet addressed the issue.
+- The US and potentially other countries tend to react to crises rather than proactively planning.
+- The release of Microsoft's Willow quantum chip last year caused a 10% drop in Bitcoin's value.
+
+Part 47
+- There were concerns about the strength of SHA-52 cryptography after claims that 13 million times more processing power would be required to break it.
+- These concerns were debunked due to the significant gap in processing power required.
+- The value of post-quantum proofing for cryptocurrencies was discussed, suggesting that a sovereign nation should invest in understanding the timeline or risk of post-quantum threats.
+- It was noted that there is a lack of objective, fact-based information available on this topic.
+
+Part 48
+- The importance of understanding the current state of quantum technology and its potential impact on business operations has been highlighted.
+- It is suggested that a cost-benefit-risk analysis should be conducted to make informed decisions.
+- The concept of an "easy step" or a "warning" before delving into quantum technology has been proposed, primarily from a marketing perspective.
+
+Part 49
+* The importance of planning for quantum-resistant solutions was discussed.
+* It was suggested that the process should be approached in steps, starting with a basic explanation of the urgency and need for such solutions.
+* The lifetime of Bitcoin's digital signature was highlighted as being extremely long.
+* There was a discussion on the perceived urgency of migrating to Post-Quantum Cryptography (PQC) for encryption and digital signatures.
+
+Part 50
+* The longevity of using a single digital signature in Bitcoin or blockchain systems makes them particularly vulnerable to quantum computing.
+* Migration to Post-Quantum Cryptography (PQC) should be considered due to this vulnerability, with careful consideration of the costs and benefits of such a migration.
+
+Part 51
+* Firmware can be automated, updated easily and inexpensively due to their software-like nature.
+* Changing the signature for Bitcoin is not as straightforward or cost-effective.
+* Browsers need to update their methods to protect traditional data and transaction data, as there are no alternatives.
+* For the current discussion, there may not be an alternative to the proposed changes besides migrating to Post-Quantum Cryptography (PQC) methods. However, the cost associated with this change is a significant consideration.
+
+Part 52
+- The importance of having a pandemic preparation plan was discussed, using the example of President George W. Bush's efforts in 2002-2003.
+- Despite initial resistance and difficulty in securing funding and buy-in, the preliminary plans developed during that time proved beneficial when the COVID-19 pandemic hit.
+
+Part 53
+- The importance of proactive actions in the context of PQC migration and crypto agility has been emphasized.
+- Delaying actions can lead to significant time cost savings and the avoidance of negative consequences, such as a market crash.
+- The title of the discussion was PQC migration and crypto agility, with a focus on the significance of cryptographic agility.
+- A more cryptographically agile architecture can provide more time to prepare for migrations and adapt to changes.
+
+Part 54
+- The discussion revolved around the potential threats to cryptographic algorithms beyond the Post-Quantum Cryptography (PQC) migration.
+- The importance of cryptographic agility for better security, vulnerability management, and business judgment was highlighted.
+- Instead of immediate migration, the proposal was made to create a more cryptographically agile blockchain system to address various potential threats.
+
+Part 55
+- The participants discussed the possibility of focusing on outlining the threats related to Post-Quantum Cryptography (PQC) migration instead of heavily investigating the technical aspects.
+- There is a consensus on the need for education and awareness about the potential risks before identifying specific problems and solutions.
+
+Part 56
+- The discussion revolved around the approach to a post-quantum migration strategy.
+- There is a need to consider the support from other stakeholders before deciding on a strategy.
+- The goal of the paper could be to set a best practice or to encourage people to adopt the strategy.
+- There is a concern about the difficulty of changing the approach once it has been set.
+
+Part 57
+- The discussion revolved around the transition from SHA-1 to SHA-2, not as a direct recommendation, but as a risk assessment and understanding of the implications.
+- It was clarified that not all uses of SHA-1 require migration to SHA-2, such as in the case of random number or string generation.
+- The importance of understanding the scope and specific use cases before recommending a migration was highlighted.
+
+Part 58
+- The scoping of a migration can be smaller, but there may be concerns about requiring unnecessary migration from those outside the scope.
+- A migration should not create a negative externality, and it is acceptable as long as it does not cause issues.
+- There is a comparison between using 30 plus sunscreen and 15 plus sunscreen; both are effective, and personal preference matters.
+- It is essential to avoid prematurely adding 15 for a specific migration or recommendation for a solution.
+
+Part 59
+- The importance of timing in technology adoption was discussed, with a suggestion that waiting too long to adopt new technology may result in missed opportunities.
+- The concept of "being American" in terms of technology adoption was introduced, where companies are built on new technology quickly, even if it's not perfect.
+- The risk of waiting until something is certain was highlighted, as many companies may start and fail during the same timeframe.
+
+Part 60
+- The discussion revolved around the concept of making informed decisions based on current knowledge, even if that information may change in the future.
+- The importance of proactive measures in the face of potential security threats, such as quantum computing, was emphasized.
+
+Part 61
+- The importance of having a plan for potential issues with existing cryptography was discussed, using the example of the pandemic and the hypothetical future crash of Bitcoin.
+- The concept of balancing gains and costs was introduced in relation to post-quantum crypto migration.
+- It was noted that post-quantum crypto migration is costly and that new PQC algorithms are relatively new compared to RSA or HDSA.
+
+Part 62
+- There is a discussion on the safety of current cryptographic algorithms and the potential for new vulnerabilities.
+- Consideration is given to migrating to other algorithms or Post-Quantum Cryptography (PQC) algorithms.
+- It is noted that PQC migration can have both positive and negative effects.
+- There is agreement on the need to be careful about the potential negative effects of PQC migration.
+
+Part 63
+- There is a suggestion to propose a solution that is independent of the cryptographic algorithm used in the context of Post-Quantum Cryptography (PQC) and blockchain.
+- Amanda's opinions on the matter are favorable, recognizing the difficulty in determining the best PQC algorithm at this stage.
+- The migration to PQC and blockchain is perceived as costly, but it involves multiple layers, including protocol, client, regulation, customer, and overall security.
+
+Part 64
+* Discussion took place around the cost and feasibility of securing all Bitcoin and migrating the protocol.
+* It was agreed that upgrading the protocol would not be overly costly, but the level of security or migration desired is uncertain.
+* The implementation of certain regulations for custody might not be very costly, but the level of protection desired is unclear.
+* A roadmap for this process was discussed, but concerns were raised about the lack of suitable tools and algorithms to facilitate a smooth migration.
+
+Part 65
+- The discussion revolved around the transition from traditional cryptography to Post-Quantum Cryptography (PQC) and potential approaches to maintain the integrity of blocks during this transition.
+- Several approaches were suggested, including hybrid signatures, layered mechanisms, and overlapping blocks with PQC structures. However, the suitable approach is yet to be determined.
+
+Part 66
+- The discussion revolved around the importance of understanding various possibilities and tools to address a problem, rather than focusing on a single solution.
+- The analogy of an "iceberg" was used to illustrate the complexities and different approaches to tackle a problem.
+
+Part 67
+- The discussion revolved around the uncertainty of future inventions and their impact on current decisions.
+- There is a concern about the lack of interoperability between different tools used by various stakeholders.
+
+Part 69
+- The team discussed the importance of communication when potential issues arise, emphasizing the need to inform stakeholders without causing panic.
+- There is a concern about the team's credibility when raising alarms, as constant problem identification without solutions can lead to the "boy who cried wolf" syndrome.
+- The team is working on potential solutions and will consider different methodologies.
+- There is a consensus on the significance of the potential problem and the need to address it proactively.
+
+Part 70
+- The participants agree on the importance of creating a document that outlines the concept of crypto agility.
+- The document will include a hypothesis and an exploration of potential solutions.
+- The participants acknowledge the wealth of existing research on the topic and agree to share and discuss this evidence.
+
+Part 71
+- The threat of quantum technology to crypto is real and imminent, but not widely recognized.
+- There is a need for tools and a plan to address this threat.
+- A simplified explanation of the threat could help raise awareness among those in the crypto community.
+
+Part 72
+- The session concluded with a discussion on the topic of organization and change.
+- There was a general agreement that it is a complex issue, but there is optimism that the right services can make a positive impact.
+
+Part 73
+- The speakers discussed having conversations with "our walls", which may imply exploring new ideas or approaches.
+- The speakers have been open-minded since the beginning of the pandemic.
+- There was an attempt to shut down a program, but it was decided to address it in a new way.
+- The speakers are almost happy with the outcome of this situation.
+
+--- END TEXT ---
