@@ -1,8 +1,8 @@
-import os
 import sys
+import os
 import re
 from docx import Document
-from docx.shared import Pt
+from utils.logging import debug, info, success
 
 def clean_text(text):
     # Remove control characters not supported in Word XML (e.g., NULL bytes)
@@ -17,11 +17,11 @@ def merge_documents(input_dir, base_filename, output_file, template_file=None):
 
     part_num = 1
     while True:
-        part_filename = os.path.join(input_dir, f"{base_filename}_part{part_num}_llm_output.txt")
-        if not os.path.exists(part_filename):
+        input_file = os.path.join(input_dir, f"{base_filename}_part{part_num}_output.txt")
+        if not os.path.exists(input_file):
             break
 
-        with open(part_filename, "r", encoding="utf-8") as f:
+        with open(input_file, "r", encoding="utf-8") as f:
             content = f.read()
             cleaned_content = clean_text(content)
 
@@ -31,17 +31,16 @@ def merge_documents(input_dir, base_filename, output_file, template_file=None):
         # Format paragraphs into multiple lines (separate paragraphs with blank lines)
         for paragraph_text in cleaned_content.strip().split("\n\n"):
             paragraph = merged_doc.add_paragraph()
-            for line in paragraph_text.strip().split("\n"):
-                paragraph.add_run(clean_text(line)).font.size = Pt(11)
+            paragraph.add_run(paragraph_text.strip())
 
         part_num += 1
 
     merged_doc.save(output_file)
-    print(f"✅ Merged document saved to {output_file}")
+    success(f"Merged document saved to {output_file}")
 
-if __name__ == "__main__":
+def main():
     if len(sys.argv) != 5:
-        print("Usage: python merge_docx.py <input_dir> <base_filename> <output_file> <template_file>")
+        info("Usage: python merge_docx.py <input_dir> <base_filename> <output_file> <template_file>")
         sys.exit(1)
 
     input_dir = sys.argv[1]
@@ -50,3 +49,6 @@ if __name__ == "__main__":
     template_file = sys.argv[4]
 
     merge_documents(input_dir, base_filename, output_file, template_file)
+
+if __name__ == "__main__":
+    main()

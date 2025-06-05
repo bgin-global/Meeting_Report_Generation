@@ -1,51 +1,66 @@
 import sys
 import os
-from faster_whisper import WhisperModel
+import faster_whisper
 from pathlib import Path
 import subprocess
+from utils.logging import debug, info, progress, success
 
-if len(sys.argv) < 2:
-    print("Usage: python transcribe.py <video_id> [model_size]")
-    sys.exit(1)
+def transcribe(input_wav, output_txt, model_size="large-v2"):
+    if len(sys.argv) < 2:
+        info("Usage: python transcribe.py <video_id> [model_size]")
+        sys.exit(1)
 
-video_id = sys.argv[1]
-model_size = sys.argv[2] if len(sys.argv) >= 3 else "medium"
+    # Paths
+    base_dir = Path(__file__).resolve().parent
+    recordings_dir = base_dir / "MeetingRecordings"
+    working_dir = base_dir / "Working"
+    output_dir = base_dir / "MeetingOutputs"
+    working_dir.mkdir(exist_ok=True)
+    output_dir.mkdir(exist_ok=True)
 
-# Paths
-base_dir = Path(__file__).resolve().parent
-recordings_dir = base_dir / "MeetingRecordings"
-working_dir = base_dir / "Working"
-output_dir = base_dir / "MeetingOutputs"
-working_dir.mkdir(exist_ok=True)
-output_dir.mkdir(exist_ok=True)
+    video_path = recordings_dir / f"{input_wav.stem}.mp4"
+    wav_path = output_dir / f"{input_wav.stem}.wav"
+    output_txt_path = working_dir / f"{input_wav.stem}_transcript.txt"
 
-video_path = recordings_dir / f"{video_id}.mp4"
-wav_path = output_dir / f"{video_id}.wav"
-output_txt_path = working_dir / f"{video_id}_transcript.txt"
+    # Extract audio to wav
+    print(f"🔵 Extracting audio to WAV: {wav_path}")
+    subprocess.run([
+        "ffmpeg", "-y", "-i", str(video_path),
+        "-ar", "16000", "-ac", "1", "-c:a", "pcm_s16le", str(wav_path)
+    ], check=True)
 
-# Extract audio to wav
-print(f"🔵 Extracting audio to WAV: {wav_path}")
-subprocess.run([
-    "ffmpeg", "-y", "-i", str(video_path),
-    "-ar", "16000", "-ac", "1", "-c:a", "pcm_s16le", str(wav_path)
-], check=True)
+    # Load model
+    progress(f"Starting transcription for: {wav_path}")
+    model = faster_whisper.WhisperModel(model_size, device="cuda", compute_type="float16")
+    progress("Model loaded successfully.")
 
-print(f"🔵 Starting transcription for: {wav_path}")
-model = WhisperModel(model_size, device="auto", compute_type="auto")
-print("🔵 Model loaded successfully.")
+    # Transcribe
+    debug("Running transcription...")
+    segments, _ = model.transcribe(
+        input_wav,
+        beam_size=5,
+        word_timestamps=True,
+        condition_on_previous_text=True,
+        initial_prompt="This is a meeting transcript."
+    )
 
-segments, _ = model.transcribe(
-    str(wav_path),
-    beam_size=1,
-    vad_filter=True
-)
+    # Write output
+    segment_list = list(segments)  # Convert generator to list
+    progress(f"Transcription completed. Now writing to {output_txt}")
+    
+    with open(output_txt, "w", encoding="utf-8") as f:
+        for segment in segment_list:
+            f.write(f"{segment.start:.1f} --> {segment.end:.1f}: {segment.text}\n")
 
-segment_list = list(segments)  # cache generator
+    success(f"Transcription saved. {len(segment_list)} segments written.")
 
-print(f"🔵 Transcription completed. Now writing to {output_txt_path}")
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        info("Usage: python transcribe.py <video_id> [model_size]")
+        sys.exit(1)
 
-with open(output_txt_path, "w", encoding="utf-8") as f:
-    for segment in segment_list:
-        f.write(f"{segment.start:.2f} --> {segment.end:.2f}: {segment.text.strip()}\n")
+    wav_path = sys.argv[1]
+    model_size = sys.argv[2] if len(sys.argv) > 2 else "large-v2"
+    output_txt_path = wav_path.replace(".wav", "_transcript.txt")
 
-print(f"✅ Transcription saved. {len(segment_list)} segments written.")
+    transcribe(wav_path, output_txt_path, model_size)
