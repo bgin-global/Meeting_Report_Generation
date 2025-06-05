@@ -1,10 +1,11 @@
+import sys
 import os
 import re
-import sys
 from docx import Document
 from docx.shared import Pt
+from utils.logging import debug, info, success, warning
 
-# プレースホルダーとセクションの対応
+# Mapping between placeholders and sections
 PLACEHOLDER_MAP = {
     "<< EXEC_SUMMARY >>": "Executive Summary",
     "<< KEY_DISCUSSION >>": "Key Discussion Points",
@@ -14,78 +15,79 @@ PLACEHOLDER_MAP = {
 }
 
 def clean_text(text):
-    # XML非対応の制御文字とANSIコード（例: [0m）を除去
+    # Remove control characters not compatible with XML and ANSI codes (e.g., [0m)
     text = re.sub(r'\[\d+m', '', text)
     text = re.sub(r'[\x00-\x08\x0B\x0C\x0E-\x1F]', '', text)
     return text.strip()
 
 def extract_sections(text):
-    # # Executive Summary または **Executive Summary** の両方にマッチ
+    # Match both # Executive Summary and **Executive Summary**
     pattern = r"(?:#|\*\*)\s*(Executive Summary|Key Discussion Points|Action Items and Next Steps|Detailed Session Summary)\s*(?:\*\*)?"
     matches = list(re.finditer(pattern, text))
-    sections = {section: [] for section in PLACEHOLDER_MAP.values() if section != "Appendix"}
-
+    
+    sections = {}
     for i, match in enumerate(matches):
-        section_name = match.group(1)
         start = match.end()
-        end = matches[i + 1].start() if i + 1 < len(matches) else len(text)
-        content = text[start:end].strip()
-        sections[section_name].append(clean_text(content))
-
+        end = matches[i+1].start() if i < len(matches)-1 else len(text)
+        section_name = match.group(1)
+        section_text = text[start:end].strip()
+        sections[section_name] = section_text
+    
     return sections
 
-def replace_placeholders(document, content_map):
-    for para in document.paragraphs:
-        for placeholder, section_name in PLACEHOLDER_MAP.items():
-            if placeholder in para.text:
-                full_text = "\n\n".join(content_map.get(section_name, [""]))
-                replace_text_in_paragraph(para, placeholder, full_text)
-
-def replace_text_in_paragraph(paragraph, placeholder, replacement):
-    for run in paragraph.runs:
-        if placeholder in run.text:
-            run.text = run.text.replace(placeholder, replacement)
-
-def create_report(input_dir, base_filename, output_docx, template_path):
-    document = Document(template_path)
-    all_sections = {section: [] for section in PLACEHOLDER_MAP.values()}
-
+def create_report(input_dir, base_filename, output_docx, template_docx=None):
+    # Initialize document
+    doc = Document(template_docx) if template_docx else Document()
+    
+    # Read all parts
+    all_sections = {}
     part_num = 1
     while True:
-        part_path = os.path.join(input_dir, f"{base_filename}_part{part_num}_output.txt")
-        if not os.path.exists(part_path):
+        part_file = os.path.join(input_dir, f"{base_filename}_part{part_num}_output.txt")
+        if not os.path.exists(part_file):
             break
-
-        with open(part_path, "r", encoding="utf-8") as f:
+            
+        with open(part_file, "r", encoding="utf-8") as f:
             text = f.read()
-            extracted = extract_sections(text)
-            for key, value in extracted.items():
-                if value:
-                    all_sections[key].append(f"Part {part_num}\n" + clean_text("\n".join(value)))
+            sections = extract_sections(text)
+            
+            for name, content in sections.items():
+                if name not in all_sections:
+                    all_sections[name] = []
+                all_sections[name].append(content)
+        
         part_num += 1
-
-    # デバッグ用: docx書き出し前にall_sectionsの内容をファイルに保存
+    
+    # Debug: Save all_sections content to file before docx output
     try:
         with open("debug_sections.txt", "w", encoding="utf-8") as debug_f:
-            for section, contents in all_sections.items():
-                debug_f.write(f"=== {section} ===\n")
-                debug_f.write("\n\n".join(contents))
-                debug_f.write("\n\n")
+            for name, contents in all_sections.items():
+                debug_f.write(f"\n=== {name} ===\n")
+                for i, content in enumerate(contents, 1):
+                    debug_f.write(f"\n--- Part {i} ---\n{content}\n")
     except Exception as e:
-        print(f"[Warning] Failed to write debug_sections.txt: {e}")
+        warning(f"Failed to write debug_sections.txt: {e}")
+    
+    # Replace placeholders with content
+    for para in doc.paragraphs:
+        for placeholder, section_name in PLACEHOLDER_MAP.items():
+            if placeholder in para.text and section_name in all_sections:
+                para.text = para.text.replace(placeholder, "\n".join(all_sections[section_name]))
+    
+    doc.save(output_docx)
+    success(f"Final report saved to: {output_docx}")
 
-    replace_placeholders(document, all_sections)
-    document.save(output_docx)
-    print(f"✅ Final report saved to: {output_docx}")
-
-if __name__ == "__main__":
+def main():
     if len(sys.argv) != 5:
-        print("Usage: python create_docx.py <input_dir> <base_filename> <output_file> <template_file>")
+        info("Usage: python create_docx.py <input_dir> <base_filename> <output_file> <template_file>")
         sys.exit(1)
-
+    
     input_dir = sys.argv[1]
     base_filename = sys.argv[2]
-    output_file = sys.argv[3]
-    template_file = sys.argv[4]
+    output_docx = sys.argv[3]
+    template_docx = sys.argv[4]
+    
+    create_report(input_dir, base_filename, output_docx, template_docx)
 
-    create_report(input_dir, base_filename, output_file, template_file)
+if __name__ == "__main__":
+    main()
