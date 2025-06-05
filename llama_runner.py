@@ -44,9 +44,9 @@ with open("debug_llama_prompt.txt", "w", encoding="utf-8") as debug_f:
 cmd = [
     llama_run_path,
     "--temp", "0.7",
-    "--ngl", "32",  # すべてのレイヤーをGPUで実行
+    "--ngl", "32",  # Run all layers on GPU
     "--context-size", "4096",
-    "--verbose",  # 詳細なログ出力を有効化
+    "--verbose",  # Enable detailed logging
     model_path,
     prompt
 ]
@@ -62,7 +62,7 @@ with open(output_file, 'w') as out_file:
     )
     _, stderr = process.communicate()
     
-    # エラー出力を常に表示（デバッグ用）
+    # Always display error output (for debugging)
     print("llama-run stderr output:", stderr)
     
     if process.returncode != 0:

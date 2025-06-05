@@ -4,7 +4,7 @@ import sys
 from docx import Document
 from docx.shared import Pt
 
-# プレースホルダーとセクションの対応
+# Mapping between placeholders and sections
 PLACEHOLDER_MAP = {
     "<< EXEC_SUMMARY >>": "Executive Summary",
     "<< KEY_DISCUSSION >>": "Key Discussion Points",
@@ -14,13 +14,13 @@ PLACEHOLDER_MAP = {
 }
 
 def clean_text(text):
-    # XML非対応の制御文字とANSIコード（例: [0m）を除去
+    # Remove control characters not compatible with XML and ANSI codes (e.g., [0m)
     text = re.sub(r'\[\d+m', '', text)
     text = re.sub(r'[\x00-\x08\x0B\x0C\x0E-\x1F]', '', text)
     return text.strip()
 
 def extract_sections(text):
-    # # Executive Summary または **Executive Summary** の両方にマッチ
+    # Match both # Executive Summary and **Executive Summary**
     pattern = r"(?:#|\*\*)\s*(Executive Summary|Key Discussion Points|Action Items and Next Steps|Detailed Session Summary)\s*(?:\*\*)?"
     matches = list(re.finditer(pattern, text))
     sections = {section: [] for section in PLACEHOLDER_MAP.values() if section != "Appendix"}
@@ -64,7 +64,7 @@ def create_report(input_dir, base_filename, output_docx, template_path):
                     all_sections[key].append(f"Part {part_num}\n" + clean_text("\n".join(value)))
         part_num += 1
 
-    # デバッグ用: docx書き出し前にall_sectionsの内容をファイルに保存
+    # Debug: Save all_sections content to file before docx output
     try:
         with open("debug_sections.txt", "w", encoding="utf-8") as debug_f:
             for section, contents in all_sections.items():

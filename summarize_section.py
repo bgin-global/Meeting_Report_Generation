@@ -9,8 +9,8 @@ MAX_RECURSION = 5  # 再帰回数上限
 def clean_text(text):
     text = re.sub(r'\[\d+m', '', text)
     text = re.sub(r'[\x00-\x08\x0B\x0C\x0E-\x1F]', '', text)
-    text = re.sub(r'\n{3,}', '\n\n', text)  # 連続改行を2つに
-    text = re.sub(r' +', ' ', text)  # 連続スペースを1つに
+    text = re.sub(r'\n{3,}', '\n\n', text)  # Reduce consecutive newlines to two
+    text = re.sub(r' +', ' ', text)  # Reduce consecutive spaces to one
     return text.strip()
 
 def build_prompt(section_name, section_text, max_chars=None):

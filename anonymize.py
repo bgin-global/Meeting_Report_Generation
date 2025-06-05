@@ -8,7 +8,7 @@ def anonymize(input_txt, output_txt):
     with open(input_txt, "r", encoding="utf-8") as f_in, open(output_txt, "w", encoding="utf-8") as f_out:
         speaker_count = {}
         for line in f_in:
-            # スピーカー名を探す（例: [Speaker1] Hello）
+            # Find speaker names (e.g., [Speaker1] Hello)
             match = re.match(r"\[(.*?)\]", line)
             if match:
                 speaker = match.group(1)

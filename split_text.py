@@ -3,7 +3,7 @@ import sys
 import re
 
 def parse_segments(text):
-    # セグメントの開始時刻とテキストを抽出
+    # Extract segment start time and text
     segments = []
     pattern = re.compile(r"(\d+\.\d+)\s*-->\s*(\d+\.\d+):\s*(.*)")
 
@@ -22,7 +22,7 @@ def split_text(input_file, output_dir, base_filename, max_lines_per_file=25):
 
     segments = parse_segments(text)
 
-    # セグメントを時系列順にソート（念のため）
+    # Sort segments chronologically (just in case)
     segments.sort(key=lambda x: x[0])
 
     os.makedirs(output_dir, exist_ok=True)

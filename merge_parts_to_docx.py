@@ -17,7 +17,7 @@ def merge_parts(input_dir, base_filename, output_file):
         with open(part_path, 'r', encoding='utf-8') as f:
             text = f.read()
 
-        # XML互換文字のみを許可
+        # Allow only XML-compatible characters
         text = ''.join(c for c in text if c.isprintable() and c not in '\x00\x01\x02\x03\x04\x05\x06\x07\x08\x0b\x0c\x0e\x0f')
 
         merged_doc.add_paragraph(text)
