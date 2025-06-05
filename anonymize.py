@@ -1,24 +1,36 @@
 import sys
-import os
 import re
+from utils.logging import debug, info, success
 
 def anonymize(input_txt, output_txt):
-    os.makedirs(os.path.dirname(output_txt), exist_ok=True)
-
     with open(input_txt, "r", encoding="utf-8") as f_in, open(output_txt, "w", encoding="utf-8") as f_out:
         speaker_count = {}
         for line in f_in:
-            # スピーカー名を探す（例: [Speaker1] Hello）
+            # Find speaker names (e.g., [Speaker1] Hello)
             match = re.match(r"\[(.*?)\]", line)
             if match:
                 speaker = match.group(1)
                 if speaker not in speaker_count:
-                    speaker_count[speaker] = f"Speaker{len(speaker_count)+1}"
-                anon_speaker = speaker_count[speaker]
-                line = line.replace(f"[{speaker}]", f"[{anon_speaker}]")
+                    speaker_count[speaker] = len(speaker_count) + 1
+                anonymous_speaker = f"Speaker{speaker_count[speaker]}"
+                line = line.replace(f"[{speaker}]", f"[{anonymous_speaker}]")
             f_out.write(line)
 
-if __name__ == "__main__":
+        debug("Speaker mapping:")
+        for original, count in speaker_count.items():
+            debug(f"  {original} -> Speaker{count}")
+
+    success(f"Anonymized transcript saved to: {output_txt}")
+
+def main():
+    if len(sys.argv) != 3:
+        info("Usage: python anonymize.py <input.txt> <output.txt>")
+        sys.exit(1)
+
     input_txt = sys.argv[1]
     output_txt = sys.argv[2]
+
     anonymize(input_txt, output_txt)
+
+if __name__ == "__main__":
+    main()
