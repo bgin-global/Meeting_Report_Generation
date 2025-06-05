@@ -11,10 +11,10 @@ def extract_section(docx_path, section_name, output_txt_path):
         if section_name in para.text:
             start = True
             continue
+        # Section ends (stops at next Heading)
+        if start and para.style.name.startswith("Heading"):
+            break
         if start:
-            # Section ends (stops at next Heading)
-            if para.style.name.startswith("Heading"):
-                break
             full_text.append(para.text)
 
     with open(output_txt_path, "w", encoding="utf-8") as f:

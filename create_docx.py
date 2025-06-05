@@ -57,7 +57,7 @@ def create_report(input_dir, base_filename, output_docx, template_docx=None):
                 all_sections[name].append(content)
         
         part_num += 1
-    
+
     # Debug: Save all_sections content to file before docx output
     try:
         with open("debug_sections.txt", "w", encoding="utf-8") as debug_f:
