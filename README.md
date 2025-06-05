@@ -1,52 +1,77 @@
-# Meeting Report Generator
+# Meeting Report Generation
 
-自動会議レポート生成システム。音声録音から会議の文字起こし、要約、セクション分割、そしてレポート生成までを自動化します。
+An automated meeting report generation system that handles the entire process from voice recording transcription to report generation, including summarization and section organization.
 
-## 主な機能
+## Features
 
-- 音声録音からの文字起こし
-- LLMを使用した会議内容の要約生成
-- エグゼクティブサマリーの生成
-- セクション別の要約と整理
-- Word形式でのレポート出力
+- Voice recording transcription
+- Meeting content summarization using LLM
+- Executive summary generation
+- Section-based summary and organization
+- Report output in Word format
 
-## 必要条件
+## Requirements
 
-- Python 3.8以上
+- Python 3.8 or higher
 - llama.cpp
-- Mixtral 8x7B Instructモデル
-- Word templateファイル
+- Mixtral 8x7B Instruct model
+- Word template file
 
-## セットアップ
+## Setup
 
-1. 必要なPythonパッケージのインストール:
+1. Install required Python packages:
 ```bash
 pip install -r requirements.txt
 ```
 
-2. llama.cppのセットアップ
-3. Mixtral 8x7Bモデルのダウンロード
-4. テンプレートファイルの配置
+2. Set up llama.cpp
+3. Download Mixtral 8x7B model
+4. Place template files
 
-## 使用方法
+## Usage
 
-基本的な使用方法:
+Basic usage:
 ```bash
-./run_meeting_report.sh <録音ファイル> <出力ディレクトリ>
+./run_meeting_report.sh <recording_file> <output_directory>
 ```
 
-デバッグモード:
+Debug mode:
 ```bash
-./run_meeting_report.sh <録音ファイル> <出力ディレクトリ> --verbose --step <ステップ番号>
+# Full verbose mode
+./run_meeting_report.sh <recording_file> <output_directory> --verbose
+
+# Debug specific step
+./run_meeting_report.sh <recording_file> <output_directory> --step <step_number>
 ```
 
-## ディレクトリ構造
+Available steps:
+1. Transcribing
+2. Anonymizing
+3. Splitting Text
+4. LLM Summarizing
+5. Creating DOCX
+6. Extract Exec Summary
+7. Summarize Exec Summary
+8. Refine DOCX
+9. Extract Key Discussion Points
+10. Summarize Key Discussion Points
+11. Refine DOCX (Key Discussion Points)
+12. Extract Action Items and Next Steps
+13. Summarize Action Items and Next Steps
+14. Refine DOCX (Action Items and Next Steps)
+15. Convert to PDF
 
-- `MeetingRecordings/`: 会議録音ファイル
-- `MeetingOutputs/`: 生成されたレポート
-- `Templates/`: Wordテンプレート
-- `models/`: LLMモデル
+## Directory Structure
 
-## ライセンス
+- `MeetingRecordings/`: Meeting recording files
+- `MeetingOutputs/`: Generated reports
+- `Templates/`: Word templates
+- `models/`: LLM models
 
-MITライセンス 
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. 
