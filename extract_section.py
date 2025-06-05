@@ -16,7 +16,7 @@ def extract_section(docx_path, section_name, output_txt_path):
         if section_name.lower() in para.text.strip().lower():
             start = True
             continue
-        # セクション終了（次のHeadingで止める）
+        # Section ends (stops at next Heading)
         if start and para.style.name.startswith("Heading"):
             break
         if start:

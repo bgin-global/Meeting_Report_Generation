@@ -18,7 +18,7 @@ def find_section_indices_loose(doc, section_name):
             start_idx = i
             continue
         if start_idx is not None:
-            # 次の大見出し（数字+ピリオド or <<...>> プレースホルダー）で終わり
+            # Ends at the next major heading (number+period or <<...>> placeholder)
             if re.match(r"^\d+\. ", para.text.strip()) or re.match(r"^<<.*>>$", para.text.strip()):
                 end_idx = i
                 break
@@ -28,7 +28,7 @@ def find_section_indices_loose(doc, section_name):
     return start_idx, end_idx
 
 def remove_section(doc, section_name):
-    # Key Discussion Points, Action Items and Next Stepsは見出し番号付きで厳密検出
+    # Key Discussion Points, Action Items and Next Steps are strictly detected with heading numbers
     section_headings = {
         "Key Discussion Points": ("2. Key Discussion Points", "2.1 Condensed Key Discussion Points"),
         "Action Items and Next Steps": ("3. Action Items and Next Steps", "3.1 Condensed Action Items and Next Steps")
@@ -51,15 +51,15 @@ def remove_section(doc, section_name):
                 p._element.getparent().remove(p._element)
         heading_para = doc.paragraphs[start_idx] if start_idx is not None else None
         return heading_para
-    # それ以外は従来通り
+    # Others follow the conventional approach
     start_idx = None
     end_idx = None
     for i, para in enumerate(doc.paragraphs):
         if section_name in para.text.strip():
             start_idx = i
         elif start_idx is not None and (
-            re.match(r"^\d+\.\d+ ", para.text.strip()) or  # 2.1 ... など
-            re.match(r"^\d+\. ", para.text.strip()) or     # 3. ... など
+            re.match(r"^\d+\.\d+ ", para.text.strip()) or  # e.g., 2.1 ...
+            re.match(r"^\d+\. ", para.text.strip()) or     # e.g., 3. ...
             re.match(r"^<<.*>>$", para.text.strip())
         ):
             end_idx = i
@@ -83,7 +83,7 @@ def remove_original_placeholder(doc, section_name):
         return
     for para in doc.paragraphs:
         if para.text.strip() == placeholder:
-            # 段落ごと削除
+            # Delete paragraphs
             para._element.getparent().remove(para._element)
             return
         for run in para.runs:
@@ -111,7 +111,7 @@ def replace_condensed_placeholder(doc, section_name, summary_text, heading_para=
                     run.text = run.text.replace(placeholder, clean_text(summary_text))
             found = True
             break
-    # プレースホルダーが無い場合は、見出し直後に必ず挿入
+    # If no placeholder exists, always insert after the heading
     if not found and heading_para is not None:
         insert_paragraph_after(heading_para, clean_text(summary_text))
 
@@ -134,7 +134,7 @@ if __name__ == "__main__":
     summary_txt = sys.argv[3]
     output_docx = sys.argv[4]
 
-    # デバッグ: 段落・run構造を出力
+    # Debug: Output paragraph and run structure
     doc = Document(input_docx)
     print("[DEBUG] Paragraphs and runs in the input docx:")
     for i, para in enumerate(doc.paragraphs):
